@@ -2,10 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import io from 'socket.io-client';
 import React, {useState ,useEffect} from 'react'
+import ChatPage from './components/ChatPage';
 
 let socket = io('http://localhost:5000');
 
-
+// const messages = document.getElementById('messages')
 
 
 function App() {
@@ -24,19 +25,29 @@ function App() {
 
 console.log(test)
 
+
+// function appendMessages(message) {
+//   const html = `<div>${message}</div>`
+//   messages.innerHTML += html
+// }
+
 function submitHandler(event) {
   event.preventDefault();
   console.log(event.target.firstChild.value)
   
   socket.emit('chatMessage', event.target.firstChild.value)
-  setTest(...test,event.target.firstChild.value)
+  // setTest(...test,event.target.firstChild.value)
+  setTest(test.concat(event.target.firstChild.value));
 }
+
+
 
   return (
     <div className="App">
+      <ChatPage test={ test } />
       <header className="App-header">
         <h1>Welcome</h1>
-        <div>{test}</div>
+        <div>${test}</div>
       </header>
       <form id='messageForm' action='' onSubmit={submitHandler}>
         <input type='text' name='message' />
